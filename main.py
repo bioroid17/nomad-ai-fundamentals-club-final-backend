@@ -8,25 +8,29 @@ def index():
     return "hello"
 
 
-@app.route("/subjects", methods=["GET", "POST"])
-def subjects():
-    if request.method == "GET":
-        pass
-    else:
-        pass
-
-
-@app.delete("/subjects/<int:id>")
-def delete_subjects(id: int):
+@app.get("/subjects")
+def get_subjects():
     pass
 
 
-@app.route("/sessions", methods=["GET", "POST"])
-def sessions():
-    if request.method == "GET":
-        pass
-    else:
-        pass
+@app.post("/subjects")
+def post_subjects():
+    pass
+
+
+@app.delete("/subjects/<int:id>")
+def delete_subject(id: int):
+    pass
+
+
+@app.get("/sessions")
+def get_sessions():
+    pass
+
+
+@app.post("/sessions")
+def post_sessions():
+    pass
 
 
 @app.delete("/sessions/<int:id>")
