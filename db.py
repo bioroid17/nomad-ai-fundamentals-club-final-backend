@@ -19,12 +19,6 @@ class Subject(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(unique=True)
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-        }
-
 
 class Session(db.Model):
     __tablename__ = "session"
@@ -35,14 +29,6 @@ class Session(db.Model):
     created_at: Mapped[datetime] = mapped_column(
         default=datetime.now(tz=timezone(timedelta(hours=9)))
     )
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "subject_id": self.subject_id,
-            "duration": self.duration,
-            "created_at": self.created_at,
-        }
 
 
 def obj_to_dict(obj):
