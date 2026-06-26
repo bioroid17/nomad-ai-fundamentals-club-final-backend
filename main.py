@@ -33,7 +33,13 @@ def get_subjects():
 
 @app.post("/subjects")
 def post_subjects():
-    pass
+    body = request.get_json()
+
+    name = body.get("name")
+    subject = Subject(name=name)
+    db.session.add(subject)
+    db.session.commit()
+    return jsonify(obj_to_dict(subject))
 
 
 @app.delete("/subjects/<int:id>")
@@ -50,7 +56,18 @@ def delete_subject(id: int):
 
 @app.get("/sessions")
 def get_sessions():
-    stmt = select(Session)
+    stmt = (
+        select(
+            Session.id,
+            Session.subject_id,
+            Session.duration,
+            Session.created_at,
+            Subject.name,
+        )
+        .select_from(Session)
+        .join(Subject)
+    )
+    print(stmt)
     sessions = list(db.session.execute(stmt).scalars())
     return jsonify([obj_to_dict(session) for session in sessions])
 

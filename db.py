@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
@@ -17,7 +17,7 @@ class Subject(db.Model):
     __tablename__ = "subject"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(unique=True)
+    name: Mapped[str] = mapped_column(nullable=False)
 
 
 class Session(db.Model):
@@ -29,7 +29,7 @@ class Session(db.Model):
     )
     duration: Mapped[int]
     created_at: Mapped[datetime] = mapped_column(
-        default=datetime.now(tz=timezone(timedelta(hours=9)))
+        default=datetime.now(tz=timezone(timedelta(hours=9))),
     )
 
 
