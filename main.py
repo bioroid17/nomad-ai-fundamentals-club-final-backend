@@ -14,10 +14,11 @@ with app.app_context():
 
 @app.route("/")
 def index():
-    stmt = select(Subject).where(Subject.id == 2)
+    stmt = select(Subject).where(Subject.id == 1)
     delete_subject = db.session.execute(stmt).scalar()
     try:
         db.session.delete(delete_subject)
+        db.session.commit()
         return {"success": True}
     except UnmappedInstanceError:
         return {"success": False, "msg": "존재하지 않는 인스턴스입니다."}
@@ -41,6 +42,7 @@ def delete_subject(id: int):
     delete_subject = db.session.execute(stmt).scalar()
     try:
         db.session.delete(delete_subject)
+        db.session.commit()
         return {"success": True}
     except UnmappedInstanceError:
         return {"success": False, "msg": "존재하지 않는 인스턴스입니다."}
@@ -64,6 +66,7 @@ def delete_sessions(id: int):
     delete_session = db.session.execute(stmt).scalar()
     try:
         db.session.delete(delete_session)
+        db.session.commit()
         return {"success": True}
     except UnmappedInstanceError:
         return {"success": False, "msg": "존재하지 않는 인스턴스입니다."}

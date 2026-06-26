@@ -24,7 +24,9 @@ class Session(db.Model):
     __tablename__ = "session"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    subject_id: Mapped[int] = mapped_column(ForeignKey("subject.id"))
+    subject_id: Mapped[int] = mapped_column(
+        ForeignKey("subject.id", ondelete="CASCADE")
+    )
     duration: Mapped[int]
     created_at: Mapped[datetime] = mapped_column(
         default=datetime.now(tz=timezone(timedelta(hours=9)))
