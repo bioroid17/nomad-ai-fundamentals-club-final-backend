@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
-from sqlalchemy import select
+from sqlalchemy import delete, select
 from db import Session, Subject, db, obj_to_dict
+from sqlalchemy.orm.exc import UnmappedInstanceError
 import json
 
 app = Flask("Focus Timer")
@@ -13,9 +14,13 @@ with app.app_context():
 
 @app.route("/")
 def index():
-    stmt = select(Subject).where(Subject.id == 1)
-    subject = db.session.execute(stmt).scalar()
-    return jsonify(obj_to_dict(subject))
+    stmt = select(Subject).where(Subject.id == 2)
+    delete_subject = db.session.execute(stmt).scalar()
+    try:
+        db.session.delete(delete_subject)
+        return {"success": True}
+    except UnmappedInstanceError:
+        return {"success": False, "msg": "존재하지 않는 인스턴스입니다."}
 
 
 @app.get("/subjects")
@@ -33,8 +38,12 @@ def post_subjects():
 @app.delete("/subjects/<int:id>")
 def delete_subject(id: int):
     stmt = select(Subject).where(Subject.id == id)
-    subject = db.session.execute(stmt).scalar()
-    return jsonify(obj_to_dict(subject))
+    delete_subject = db.session.execute(stmt).scalar()
+    try:
+        db.session.delete(delete_subject)
+        return {"success": True}
+    except UnmappedInstanceError:
+        return {"success": False, "msg": "존재하지 않는 인스턴스입니다."}
 
 
 @app.get("/sessions")
@@ -51,7 +60,13 @@ def post_sessions():
 
 @app.delete("/sessions/<int:id>")
 def delete_sessions(id: int):
-    pass
+    stmt = select(Session).where(Session.id == id)
+    delete_session = db.session.execute(stmt).scalar()
+    try:
+        db.session.delete(delete_session)
+        return {"success": True}
+    except UnmappedInstanceError:
+        return {"success": False, "msg": "존재하지 않는 인스턴스입니다."}
 
 
 @app.get("/stats")
