@@ -7,7 +7,13 @@ from flask import Flask, abort, jsonify, request
 from flask_cors import CORS
 
 app = Flask("Focus Timer")
-CORS(app)
+CORS(
+    app,
+    origins=[
+        "http://localhost:5173",
+        "https://bioroid17.github.io/nomad-ai-fundamentals-club-final-frontend/",
+    ],
+)
 
 load_dotenv()
 
