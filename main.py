@@ -11,7 +11,7 @@ CORS(
     app,
     origins=[
         "http://localhost:5173",
-        "https://bioroid17.github.io/nomad-ai-fundamentals-club-final-frontend/",
+        "https://bioroid17.github.io",
     ],
 )
 
